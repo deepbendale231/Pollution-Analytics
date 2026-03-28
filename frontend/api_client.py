@@ -48,11 +48,11 @@ def _resolve_base_url() -> str:
         _clean_url(os.getenv("BACKEND_URL")),
     ]
 
-    for candidate in [*secrets_candidates, *env_candidates, "http://localhost:8000"]:
+    for candidate in [*secrets_candidates, *env_candidates, "https://pollution-analytics.onrender.com"]:
         if candidate:
             return candidate.rstrip("/")
 
-    return "http://localhost:8000"
+    return "https://pollution-analytics.onrender.com"
 
 
 def get_base_url() -> str:
