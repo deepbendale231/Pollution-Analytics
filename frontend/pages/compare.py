@@ -1,13 +1,21 @@
 from __future__ import annotations
 
 from datetime import datetime
+import sys
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from frontend.api_client import compare_cities, get_city_ranking
+try:
+    from frontend.api_client import compare_cities, get_city_ranking
+except ModuleNotFoundError:
+    ROOT_DIR = Path(__file__).resolve().parents[2]
+    if str(ROOT_DIR) not in sys.path:
+        sys.path.append(str(ROOT_DIR))
+    from frontend.api_client import compare_cities, get_city_ranking
 
 _ = (compare_cities, get_city_ranking)
 

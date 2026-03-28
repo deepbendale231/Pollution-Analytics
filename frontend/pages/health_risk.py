@@ -2,17 +2,31 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 
 import streamlit as st
 
-from frontend.api_client import get_city_pollutants, get_city_stats
-from frontend.components.health_impact import (
-    cigarettes_equivalent,
-    get_activity_advisory,
-    get_mask_recommendation,
-    safe_outdoor_hours,
-)
+try:
+    from frontend.api_client import get_city_pollutants, get_city_stats
+    from frontend.components.health_impact import (
+        cigarettes_equivalent,
+        get_activity_advisory,
+        get_mask_recommendation,
+        safe_outdoor_hours,
+    )
+except ModuleNotFoundError:
+    ROOT_DIR = Path(__file__).resolve().parents[2]
+    if str(ROOT_DIR) not in sys.path:
+        sys.path.append(str(ROOT_DIR))
+    from frontend.api_client import get_city_pollutants, get_city_stats
+    from frontend.components.health_impact import (
+        cigarettes_equivalent,
+        get_activity_advisory,
+        get_mask_recommendation,
+        safe_outdoor_hours,
+    )
 
 
 def _to_float(value: Any) -> float | None:

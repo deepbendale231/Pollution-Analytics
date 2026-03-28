@@ -1,11 +1,19 @@
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 
 import plotly.graph_objects as go
 import streamlit as st
 
-from frontend.api_client import predict_aqi
+try:
+    from frontend.api_client import predict_aqi
+except ModuleNotFoundError:
+    ROOT_DIR = Path(__file__).resolve().parents[2]
+    if str(ROOT_DIR) not in sys.path:
+        sys.path.append(str(ROOT_DIR))
+    from frontend.api_client import predict_aqi
 
 _ = predict_aqi
 

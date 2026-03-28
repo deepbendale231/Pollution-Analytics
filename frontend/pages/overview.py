@@ -2,14 +2,23 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Any
 
 import plotly.graph_objects as go
 import streamlit as st
 from streamlit_folium import st_folium
 
-from frontend.api_client import get_city_ranking, get_city_stats
-from frontend.components.india_map import create_aqi_map
+try:
+    from frontend.api_client import get_city_ranking, get_city_stats
+    from frontend.components.india_map import create_aqi_map
+except ModuleNotFoundError:
+    ROOT_DIR = Path(__file__).resolve().parents[2]
+    if str(ROOT_DIR) not in sys.path:
+        sys.path.append(str(ROOT_DIR))
+    from frontend.api_client import get_city_ranking, get_city_stats
+    from frontend.components.india_map import create_aqi_map
 
 
 def _to_float(value: Any) -> float | None:

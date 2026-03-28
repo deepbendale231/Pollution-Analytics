@@ -1,9 +1,19 @@
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import streamlit as st
 
-from frontend.api_client import get_health_check
-from frontend.pages import city_deep_dive, compare_cities, forecast, health_risk, overview, predict_aqi
+try:
+    from frontend.api_client import get_health_check
+    from frontend.pages import city_deep_dive, compare_cities, forecast, health_risk, overview, predict_aqi
+except ModuleNotFoundError:
+    ROOT_DIR = Path(__file__).resolve().parents[1]
+    if str(ROOT_DIR) not in sys.path:
+        sys.path.append(str(ROOT_DIR))
+    from frontend.api_client import get_health_check
+    from frontend.pages import city_deep_dive, compare_cities, forecast, health_risk, overview, predict_aqi
 
 st.set_page_config(
     page_title="Pollution Analytics Dashboard",

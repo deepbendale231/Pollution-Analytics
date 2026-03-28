@@ -1,11 +1,21 @@
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from frontend import api_client
-from frontend.api_client import get_forecast
+try:
+    from frontend import api_client
+    from frontend.api_client import get_forecast
+except ModuleNotFoundError:
+    ROOT_DIR = Path(__file__).resolve().parents[2]
+    if str(ROOT_DIR) not in sys.path:
+        sys.path.append(str(ROOT_DIR))
+    from frontend import api_client
+    from frontend.api_client import get_forecast
 
 
 def _aqi_category(aqi: float) -> str:
