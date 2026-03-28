@@ -1,113 +1,106 @@
 # Pollution Analytics
 
-Production-style air quality intelligence platform for Indian cities, with real-time data ingestion, AQI prediction, explainability, forecasting, and an interactive decision dashboard.
+An end-to-end air quality intelligence platform for Indian cities, built for practical decision-making and deployment.
+
+- Live frontend: https://deepbendale231-pollution-analytics-frontendstreamlit-app-yx00m4.streamlit.app/
+- Backend target: https://pollution-analytics.onrender.com
 
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?logo=streamlit&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-Data-4479A1?logo=mysql&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/Deployment-Active-brightgreen)
 
-## Executive Summary
+## Why This Project Exists
 
-Pollution Analytics turns heterogeneous particulate and pollutant readings into operational AQI intelligence:
+Urban air quality data is often noisy, fragmented, and hard to operationalize. Pollution Analytics turns raw pollutant signals into clear, action-oriented outputs:
 
-- Live ingestion from external sources into a structured MySQL store.
-- Standards-aware analytics and KPI computation.
-- ML-backed AQI prediction with confidence intervals.
-- Time-series forecasting for near-term planning.
-- Health-risk interpretation for sensitive population groups.
-- A modern Streamlit control plane for analysts and city-ops users.
+- City-level air quality KPIs
+- AQI prediction with confidence bounds
+- Forecasting for planning windows
+- Health-risk interpretation for sensitive groups
+- A deployment-ready web dashboard for real users
 
-The system is built for practical usage, not only experimentation: deterministic APIs, dashboard workflows, explainability outputs, and scheduled pipelines are all included.
+## Live Product
 
-## Core Capabilities
+The Streamlit frontend is deployed and publicly accessible:
 
-- AQI prediction endpoint with bounds and reliability metadata.
-- 7-day forecast endpoint and uncertainty visualization.
-- City-level analytics: trend, best/worst day, pollutant averages.
-- Comparison workflow for city-vs-city intelligence.
-- Interactive map and ranking for operational prioritization.
-- Health-risk panel with mask guidance and safe-hours recommendations.
-- Scheduled ingestion runtime with structured pipeline logging.
+https://deepbendale231-pollution-analytics-frontendstreamlit-app-yx00m4.streamlit.app/
 
-## Architecture
+The frontend is configured to call:
+
+https://pollution-analytics.onrender.com
+
+## System Architecture
 
 ```text
-                        +----------------------+
-                        |  Scheduler Pipeline  |
-                        |  (APScheduler)       |
-                        +----------+-----------+
-                                   |
-                                   v
-+-----------+    +----------------------+    +------------------+
-|  Source   | -> | Ingestion + Transform| -> | MySQL (AQ Store) |
-|  APIs     |    | + Validation          |    |                  |
-+-----------+    +----------------------+    +---------+--------+
-                                                         |
-                                 +-----------------------+-----------------------+
-                                 |                                               |
-                                 v                                               v
-                       +-------------------+                           +-------------------+
-                       | FastAPI Service   |                           | Streamlit UI      |
-                       | (analytics, ML,   |<--------------------------| (interactive ops  |
-                       | forecast, health) |                           | dashboard)         |
-                       +-------------------+                           +-------------------+
+Data Sources -> Ingestion + Normalization -> MySQL -> FastAPI -> Streamlit UI
+                                      \-> ML model artifacts (prediction + forecast)
 ```
 
-## Repository Structure
+Core flow:
 
-| Path | Purpose |
-|---|---|
-| `backend/` | FastAPI app, routers, business logic |
-| `frontend/` | Streamlit app, pages, API client, components |
-| `scheduler/` | Periodic ingestion orchestration |
-| `ml/` | Forecasting and explainability modules |
-| `DATA/` | source datasets and ingestion utilities |
-| `SQL/` | SQL analysis scripts |
-| `tests/` | API and integration tests |
-| `models/` | serialized model artifacts |
-| `outputs/` | generated reports and exported analysis |
+1. Data is ingested and transformed into a clean relational schema.
+2. API endpoints expose analytics, prediction, forecast, and health insights.
+3. Streamlit consumes the API and renders decision dashboards.
+4. Model artifacts are versioned and loaded at runtime.
 
-## Technology Stack
+## Key Capabilities
 
-| Layer | Technologies |
-|---|---|
-| Backend/API | FastAPI, Uvicorn, Pydantic |
-| Data | MySQL, Pandas, NumPy |
-| ML | scikit-learn, Prophet, SHAP, joblib |
-| Frontend | Streamlit, Plotly, Folium |
-| Orchestration | APScheduler |
-| Testing | pytest, FastAPI TestClient |
+- Real-time style dashboard for city-level AQI monitoring
+- AQI prediction endpoint with lower and upper confidence bounds
+- Forecast visualization with uncertainty support
+- Health-risk cards and activity advisories
+- City comparison and deep-dive workflows
+- Ranking and pollutant-level analytics endpoints
 
-## Local Setup
+## Tech Stack
 
-### 1. Prerequisites
+- Backend: FastAPI, Uvicorn, Pydantic
+- Frontend: Streamlit, Plotly, Folium
+- Data: MySQL, Pandas, NumPy
+- ML: scikit-learn, Prophet, SHAP, joblib
+- Scheduling: APScheduler
+- Testing: pytest
 
-- Python 3.11+
-- MySQL 8+
-- Git
+## Repository Layout
 
-### 2. Clone and Environment
+- backend: FastAPI app, routers, service logic
+- frontend: Streamlit app, pages, api client, components
+- models: trained artifacts (model, scaler, metadata)
+- scheduler: ingestion and orchestration jobs
+- SQL: analysis SQL scripts
+- DATA: source datasets and utilities
+- outputs: generated analysis artifacts
+- tests: automated tests
+
+## API Endpoints
+
+- GET /health
+- POST /predict
+- GET /forecast/{city}
+- GET /analytics/ranking
+- GET /analytics/compare
+- GET /analytics/city/{city}/stats
+- GET /analytics/city/{city}/pollutants
+
+## Local Development
+
+### 1) Environment
 
 ```bash
 git clone https://github.com/deepbendale231/Pollution-Analytics.git
 cd Pollution-Analytics
 python3 -m venv .venv
 source .venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment
+### 2) Configure environment variables
 
-Create `.env` (or adapt `.env.example`) with database and API settings.
+Create .env file:
 
-```bash
+```env
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
@@ -116,135 +109,127 @@ DB_NAME=air_quality_db
 API_BASE_URL=http://127.0.0.1:8000
 ```
 
-### 5. Start Services
-
-Backend:
+### 3) Run backend
 
 ```bash
 .venv/bin/python -m uvicorn backend.app:app --host 0.0.0.0 --port 8000
 ```
 
-Frontend:
+### 4) Run frontend
 
 ```bash
 .venv/bin/python -m streamlit run frontend/streamlit_app.py --server.port 8501 --server.headless true
 ```
 
-Scheduler (optional):
+## Production Deployment
 
-```bash
-.venv/bin/python -m scheduler.pipeline
+### Frontend (Streamlit Cloud)
+
+Required secret:
+
+```toml
+API_BASE_URL = "https://pollution-analytics.onrender.com"
 ```
 
-### 6. Open Dashboard
+### Backend (Render)
 
-- Streamlit: http://127.0.0.1:8501
-- API Health: http://127.0.0.1:8000/health
-- OpenAPI Docs: http://127.0.0.1:8000/docs
-
-## API Surface
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| `GET` | `/health` | Service and model readiness |
-| `POST` | `/predict` | AQI prediction with confidence bounds |
-| `GET` | `/forecast/{city}` | 7-day AQI forecast |
-| `GET` | `/analytics/city/{city}/stats` | city trend and summary KPIs |
-| `GET` | `/analytics/city/{city}/pollutants` | pollutant-wise averages |
-| `GET` | `/analytics/ranking` | cross-city ranking |
-| `GET` | `/analytics/compare` | city-vs-city comparison |
-
-## Example Requests
-
-Predict AQI:
+Start command:
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/predict" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "city": "Delhi",
-    "pm25": 82.5,
-    "pm10": 145.2,
-    "no2": 38.1,
-    "so2": 13.4,
-    "temperature": 30.0,
-    "humidity": 58.0,
-    "wind_speed": 7.2
-  }'
+python -m uvicorn backend.app:app --host 0.0.0.0 --port $PORT
 ```
 
-City stats:
+Required environment variables:
+
+```env
+DB_HOST=ber1eetclql1cagyfn8o-mysql.services.clever-cloud.com
+DB_PORT=3306
+DB_USER=ufyuzzgw4yq62pry
+DB_PASSWORD=********
+DB_NAME=ber1eetclql1cagyfn8o
+```
+
+Notes:
+
+- Use a managed MySQL database in production.
+- Keep credentials only in Render or Streamlit secret management.
+- Do not hardcode secrets in source files.
+
+## Data Restore Procedure
+
+Database import can be done with:
 
 ```bash
-curl "http://127.0.0.1:8000/analytics/city/Mumbai/stats?days=30"
+mysql --host <host> --port 3306 --user <user> --password=<password> <db_name> < pollution_backup_nogtid.sql
 ```
 
-Forecast:
+Validation query:
 
 ```bash
-curl "http://127.0.0.1:8000/forecast/Delhi"
+mysql --host <host> --port 3306 --user <user> --password=<password> <db_name> -e "SELECT COUNT(*) FROM measurements;"
 ```
 
-## Operational Validation Checklist
+## Model Artifacts
 
-Run this after setup or deployment:
+Committed deployment artifacts:
+
+- models/aqi_model.pkl
+- models/scaler.pkl
+- models/metadata.json
+
+These are required for production prediction behavior to match local runs.
+
+## Quality Gates
+
+Health check:
 
 ```bash
-curl -sS http://127.0.0.1:8000/health
-curl -sS "http://127.0.0.1:8000/analytics/ranking" | head -c 400
-curl -sS "http://127.0.0.1:8000/analytics/city/Delhi/stats?days=30"
-curl -sS "http://127.0.0.1:8000/analytics/city/Delhi/pollutants"
-curl -sS "http://127.0.0.1:8000/forecast/Delhi" | head -c 400
+curl -sS https://pollution-analytics.onrender.com/health
 ```
 
-## Testing
+Representative API checks:
 
-Run test suite:
+```bash
+curl -sS "https://pollution-analytics.onrender.com/analytics/ranking" | head -c 500
+curl -sS "https://pollution-analytics.onrender.com/forecast/Delhi" | head -c 500
+```
+
+Test suite:
 
 ```bash
 pytest -q
 ```
 
-Run a single file:
-
-```bash
-pytest -q tests/test_api.py
-```
-
-## Data and Standards
-
-- Primary source: OpenAQ (ingested and normalized).
-- AQI interpretation aligned to CPCB/Indian AQI bands in analytics and UI.
-- Health advisory logic is deterministic and traceable in frontend components.
-
 ## Troubleshooting
 
-### API not reachable
+### Frontend shows API Offline
 
-- Verify backend process is listening on `:8000`.
-- Check `.env` for `API_BASE_URL` mismatch.
+- Confirm API_BASE_URL secret in Streamlit points to Render backend URL.
+- Confirm Render service is healthy at /health.
+- Confirm CORS settings are not blocking frontend domain.
 
-### Dashboard shows stale data
+### Render deploy starts but prediction fails
 
-- Hard refresh the browser.
-- Restart backend and frontend processes.
+- Ensure model artifacts exist in repository under models.
+- Confirm backend has permission and path access to read artifact files.
 
-### MySQL connection errors
+### MySQL connectivity fails on Render
 
-- Confirm credentials in `.env`.
-- Ensure database `air_quality_db` exists and is reachable.
+- Re-check DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME.
+- Confirm database allows external connections from Render.
 
-### Forecast unavailable for a city
+## Security Notes
 
-- Ensure sufficient recent city history exists in `measurements`.
-- Validate city spelling/alias handling.
+- Rotate database credentials after sharing in any public context.
+- Keep credentials in platform secrets only.
+- Use least-privilege database users.
 
-## Security and Production Notes
+## Roadmap
 
-- Never commit real credentials in `.env`.
-- Restrict DB user permissions for least privilege.
-- Add a reverse proxy and TLS for internet-facing deployments.
-- Add CI checks for tests, linting, and dependency vulnerabilities.
+- Add CI checks for deployment smoke tests
+- Add artifact version pinning and model registry
+- Add alerting for API downtime and forecast drift
+- Add role-based frontend access control
 
 ## License
 
