@@ -12,20 +12,51 @@ logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 
-def _resolve_base_url() -> str:
-    # Streamlit Cloud uses st.secrets instead of local .env files.
-    secrets_url = None
-    try:
-        secrets_url = st.secrets.get("API_BASE_URL")
-    except Exception:
-        secrets_url = None
 
-    return (
-        secrets_url
-        or os.getenv("API_BASE_URL")
-        or os.getenv("AQI_API_BASE_URL")
-        or "http://localhost:8000"
-    ).rstrip("/")
+def _clean_url(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip().strip('"').strip("'")
+    return text or None
+
+
+def _resolve_base_url() -> str:
+    # Streamlit Cloud typically uses st.secrets for runtime configuration.
+    secrets_candidates: list[str | None] = []
+    try:
+        secrets_candidates.extend(
+            [
+                _clean_url(st.secrets.get("API_BASE_URL")),
+                _clean_url(st.secrets.get("AQI_API_BASE_URL")),
+                _clean_url(st.secrets.get("BACKEND_URL")),
+            ]
+        )
+        api_section = st.secrets.get("api")
+        if isinstance(api_section, dict):
+            secrets_candidates.extend(
+                [
+                    _clean_url(api_section.get("base_url")),
+                    _clean_url(api_section.get("url")),
+                ]
+            )
+    except Exception:
+        secrets_candidates = []
+
+    env_candidates = [
+        _clean_url(os.getenv("API_BASE_URL")),
+        _clean_url(os.getenv("AQI_API_BASE_URL")),
+        _clean_url(os.getenv("BACKEND_URL")),
+    ]
+
+    for candidate in [*secrets_candidates, *env_candidates, "http://localhost:8000"]:
+        if candidate:
+            return candidate.rstrip("/")
+
+    return "http://localhost:8000"
+
+
+def get_base_url() -> str:
+    return BASE_URL
 
 
 BASE_URL = _resolve_base_url()

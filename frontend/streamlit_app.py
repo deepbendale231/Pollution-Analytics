@@ -6,13 +6,13 @@ from pathlib import Path
 import streamlit as st
 
 try:
-    from frontend.api_client import get_health_check
+    from frontend.api_client import get_base_url, get_health_check
     from frontend.pages import city_deep_dive, compare_cities, forecast, health_risk, overview, predict_aqi
 except ModuleNotFoundError:
     ROOT_DIR = Path(__file__).resolve().parents[1]
     if str(ROOT_DIR) not in sys.path:
         sys.path.append(str(ROOT_DIR))
-    from frontend.api_client import get_health_check
+    from frontend.api_client import get_base_url, get_health_check
     from frontend.pages import city_deep_dive, compare_cities, forecast, health_risk, overview, predict_aqi
 
 st.set_page_config(
@@ -253,6 +253,7 @@ def _render_api_status() -> None:
         st.sidebar.markdown("🟢 API Status: Online")
     else:
         st.sidebar.markdown("🔴 API Status: Offline")
+    st.sidebar.caption(f"API Target: {get_base_url()}")
 
 
 def main() -> None:
