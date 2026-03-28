@@ -12,23 +12,12 @@ logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 
-
-def _get_secret(name: str) -> str | None:
-    try:
-        value = st.secrets.get(name)
-        if value is None:
-            return None
-        return str(value).strip().strip('"').strip("'")
-    except Exception:
-        return None
-
-
 def get_base_url() -> str:
     return BASE_URL
 
 
 BASE_URL = (
-    _get_secret("API_BASE_URL")
+    st.secrets.get("API_BASE_URL", None)
     or os.getenv("API_BASE_URL")
     or "https://pollution-analytics.onrender.com"
 ).rstrip("/")
