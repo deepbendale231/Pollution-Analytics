@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -59,6 +60,7 @@ def _advisory(category: str) -> str:
 def render_forecast(client, city: str) -> None:
     st.title("Forecast")
     st.caption(f"7-day AQI forecast for {city}")
+    st.write("API URL:", os.getenv("API_BASE_URL"))
 
     response = client.get_forecast(city, days=7)
     if response is None:

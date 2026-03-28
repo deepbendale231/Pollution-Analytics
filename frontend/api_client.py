@@ -13,53 +13,25 @@ logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 
 
-def _clean_url(value: Any) -> str | None:
-    if value is None:
-        return None
-    text = str(value).strip().strip('"').strip("'")
-    return text or None
-
-
-def _resolve_base_url() -> str:
-    # Streamlit Cloud typically uses st.secrets for runtime configuration.
-    secrets_candidates: list[str | None] = []
+def _get_secret(name: str) -> str | None:
     try:
-        secrets_candidates.extend(
-            [
-                _clean_url(st.secrets.get("API_BASE_URL")),
-                _clean_url(st.secrets.get("AQI_API_BASE_URL")),
-                _clean_url(st.secrets.get("BACKEND_URL")),
-            ]
-        )
-        api_section = st.secrets.get("api")
-        if isinstance(api_section, dict):
-            secrets_candidates.extend(
-                [
-                    _clean_url(api_section.get("base_url")),
-                    _clean_url(api_section.get("url")),
-                ]
-            )
+        value = st.secrets.get(name)
+        if value is None:
+            return None
+        return str(value).strip().strip('"').strip("'")
     except Exception:
-        secrets_candidates = []
-
-    env_candidates = [
-        _clean_url(os.getenv("API_BASE_URL")),
-        _clean_url(os.getenv("AQI_API_BASE_URL")),
-        _clean_url(os.getenv("BACKEND_URL")),
-    ]
-
-    for candidate in [*secrets_candidates, *env_candidates, "https://pollution-analytics.onrender.com"]:
-        if candidate:
-            return candidate.rstrip("/")
-
-    return "https://pollution-analytics.onrender.com"
+        return None
 
 
 def get_base_url() -> str:
     return BASE_URL
 
 
-BASE_URL = _resolve_base_url()
+BASE_URL = (
+    _get_secret("API_BASE_URL")
+    or os.getenv("API_BASE_URL")
+    or "https://pollution-analytics.onrender.com"
+).rstrip("/")
 
 TIMEOUT_SECONDS = 10
 
