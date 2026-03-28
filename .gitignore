@@ -27,8 +27,5 @@ htmlcov/
 logs/*.log
 *.log
 
-# Large ML artifacts
-models/*.pkl
-
 # Notebook checkpoints
 .ipynb_checkpoints/
