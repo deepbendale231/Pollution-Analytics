@@ -9,7 +9,7 @@ FastAPI backend, MySQL, ML models and a Streamlit dashboard.
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?logo=streamlit&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-Data-4479A1?logo=mysql&logoColor=white)
-[![API status](https://img.shields.io/website?url=https%3A%2F%2Fpollution-analytics.onrender.com%2Fhealth&label=API&up_message=online&down_message=sleeping%20%2F%20offline)](https://pollution-analytics.onrender.com/health)
+[![API health](https://img.shields.io/badge/API-health%20check-2ea44f)](https://pollution-analytics.onrender.com/health)
 
 [**Open the dashboard**](https://deepbendale231-pollution-analytics-frontendstreamlit-app-yx00m4.streamlit.app/) · [**API health**](https://pollution-analytics.onrender.com/health) · [**Findings**](#what-the-data-shows) · [**Architecture**](#architecture) · [**Run it**](#run-it)
 
@@ -19,7 +19,7 @@ FastAPI backend, MySQL, ML models and a Streamlit dashboard.
 
 </div>
 
-> Both services run on free tiers and sleep when idle. The first request after a pause can take up to a minute; the API badge above shows whether it is awake right now.
+> Both services run on free tiers and sleep when idle. The first request after a pause can take up to a minute; use the API health link above to wake it first.
 
 ## What the data shows
 
