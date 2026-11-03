@@ -1,0 +1,34 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='720' height='404' viewBox='0 0 720 404' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif'>
+<rect width='720' height='404' rx='12' fill='#0d1117'/>
+<text x='24' y='36' fill='#e6edf3' font-size='18' font-weight='600'>10 most polluted cities (average pollutant reading)</text>
+<text x='24' y='76' fill='#c9d1d9' font-size='14'>Noida</text>
+<rect x='190' y='61' width='380' height='20' rx='4' fill='#f85149'/>
+<text x='578' y='76' fill='#e6edf3' font-size='13'>148.5</text>
+<text x='24' y='110' fill='#c9d1d9' font-size='14'>Nandesari</text>
+<rect x='190' y='95' width='354' height='20' rx='4' fill='#f85149'/>
+<text x='552' y='110' fill='#e6edf3' font-size='13'>138.3</text>
+<text x='24' y='144' fill='#c9d1d9' font-size='14'>Delhi</text>
+<rect x='190' y='129' width='312' height='20' rx='4' fill='#f85149'/>
+<text x='510' y='144' fill='#e6edf3' font-size='13'>122.0</text>
+<text x='24' y='178' fill='#c9d1d9' font-size='14'>Ghaziabad</text>
+<rect x='190' y='163' width='296' height='20' rx='4' fill='#db6d28'/>
+<text x='494' y='178' fill='#e6edf3' font-size='13'>116.0</text>
+<text x='24' y='212' fill='#c9d1d9' font-size='14'>Greater Noida</text>
+<rect x='190' y='197' width='292' height='20' rx='4' fill='#db6d28'/>
+<text x='490' y='212' fill='#e6edf3' font-size='13'>114.4</text>
+<text x='24' y='246' fill='#c9d1d9' font-size='14'>Sri Ganganagar</text>
+<rect x='190' y='231' width='269' height='20' rx='4' fill='#db6d28'/>
+<text x='467' y='246' fill='#e6edf3' font-size='13'>105.4</text>
+<text x='24' y='280' fill='#c9d1d9' font-size='14'>Dharuhera</text>
+<rect x='190' y='265' width='267' height='20' rx='4' fill='#db6d28'/>
+<text x='465' y='280' fill='#e6edf3' font-size='13'>104.6</text>
+<text x='24' y='314' fill='#c9d1d9' font-size='14'>Bhiwadi</text>
+<rect x='190' y='299' width='256' height='20' rx='4' fill='#db6d28'/>
+<text x='454' y='314' fill='#e6edf3' font-size='13'>100.4</text>
+<text x='24' y='348' fill='#c9d1d9' font-size='14'>Meerut</text>
+<rect x='190' y='333' width='254' height='20' rx='4' fill='#d29922'/>
+<text x='452' y='348' fill='#e6edf3' font-size='13'>99.4</text>
+<text x='24' y='382' fill='#c9d1d9' font-size='14'>Gurugram</text>
+<rect x='190' y='367' width='251' height='20' rx='4' fill='#d29922'/>
+<text x='449' y='382' fill='#e6edf3' font-size='13'>98.3</text>
+</svg>
